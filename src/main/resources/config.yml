@@ -1,0 +1,25 @@
+delay: 5
+
+cooldown: 60
+
+gui-title: "§eUltra RTP"
+rows: 3
+
+radius:
+  overworld: 1000
+  nether: 500
+  the_end: 250
+
+items:
+  overworld:
+    material: GRASS_BLOCK
+    slot: 11
+    display-name: "§aOverworld RTP"
+  nether:
+    material: NETHERRACK
+    slot: 13
+    display-name: "§cNether RTP"
+  the_end:
+    material: END_STONE
+    slot: 15
+    display-name: "§bThe End RTP"

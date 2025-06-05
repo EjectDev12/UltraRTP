@@ -1,0 +1,12 @@
+name: UltraRTP
+main: me.eject.UltraRTP
+version: 1.0.0
+api-version: 1.21.1
+commands:
+  rtp:
+    description: Open the Random Teleport GUI
+    usage: /<command>
+    permission: ultrartp.use
+permissions:
+  ultrartp.use:
+    default: true
