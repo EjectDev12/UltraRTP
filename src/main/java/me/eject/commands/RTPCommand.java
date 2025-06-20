@@ -1,10 +1,10 @@
 package me.eject.commands;
 
+import me.eject.UltraRTP;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import me.eject.UltraRTP;
 
 public class RTPCommand implements CommandExecutor {
     @Override

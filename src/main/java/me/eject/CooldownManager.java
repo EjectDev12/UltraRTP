@@ -3,6 +3,7 @@ package me.eject;
 import org.bukkit.entity.Player;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class CooldownManager {
     private final ConcurrentHashMap<UUID, Long> cooldowns = new ConcurrentHashMap<>();
@@ -10,7 +11,9 @@ public class CooldownManager {
     public boolean isOnCooldown(Player player) {
         UUID id = player.getUniqueId();
         if (!cooldowns.containsKey(id)) return false;
-        return System.currentTimeMillis() < cooldowns.get(id);
+
+        long cooldownTime = cooldowns.get(id);
+        return System.currentTimeMillis() < cooldownTime;
     }
 
     public long getTimeLeft(Player player) {
@@ -22,5 +25,14 @@ public class CooldownManager {
     public void applyCooldown(Player player, int seconds) {
         long expire = System.currentTimeMillis() + seconds * 1000L;
         cooldowns.put(player.getUniqueId(), expire);
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (System.currentTimeMillis() >= expire) {
+                    cooldowns.remove(player.getUniqueId());
+                }
+            }
+        }.runTaskLater(UltraRTP.getInstance(), seconds * 20L);
     }
 }

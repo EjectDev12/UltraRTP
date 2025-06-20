@@ -20,11 +20,11 @@ public class TeleportTask extends BukkitRunnable {
     private static final int MAX_ATTEMPTS = 100;
 
     public TeleportTask(Player player, String worldKey) {
-        this.player     = player;
-        this.worldKey   = worldKey;
-        this.cfg        = UltraRTP.getInstance().getConfigManager();
+        this.player = player;
+        this.worldKey = worldKey;
+        this.cfg = UltraRTP.getInstance().getConfigManager();
         this.secondsLeft = cfg.getDelay();
-        this.startLoc   = player.getLocation().clone();
+        this.startLoc = player.getLocation().clone();
     }
 
     @Override
@@ -41,23 +41,31 @@ public class TeleportTask extends BukkitRunnable {
             return;
         }
 
-        World world = getWorldByKey(worldKey);
-        Location safeLoc = findSafeLocation(world, worldKey);
-        if (safeLoc == null) {
-            safeLoc = world.getSpawnLocation();
-            player.sendMessage("§cCould not find a safe location, teleporting to world spawn.");
-        }
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                World world = getWorldByKey(worldKey);
+                Location safeLoc = findSafeLocation(world, worldKey);
+                if (safeLoc == null) {
+                    safeLoc = world.getSpawnLocation();
+                    player.sendMessage("§cCould not find a safe location, teleporting to world spawn.");
+                }
 
-        player.teleport(safeLoc);
-        player.playSound(safeLoc, Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
-        cancel();
+                player.teleport(safeLoc);
+                player.playSound(safeLoc, Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+                cancel();
+            }
+        }.runTask(UltraRTP.getInstance());
     }
 
     private World getWorldByKey(String key) {
         switch (key) {
-            case "nether":  return Bukkit.getWorld("world_nether");
-            case "the_end": return Bukkit.getWorld("world_the_end");
-            default:         return Bukkit.getWorld("world");
+            case "nether":
+                return Bukkit.getWorld("world_nether");
+            case "the_end":
+                return Bukkit.getWorld("world_the_end");
+            default:
+                return Bukkit.getWorld("world");
         }
     }
 
@@ -84,7 +92,7 @@ public class TeleportTask extends BukkitRunnable {
         int y = world.getHighestBlockYAt(x, z) + 1;
         if (y <= 1) return null;
         Material below = world.getBlockAt(x, y - 1, z).getType();
-        if (below == Material.WATER || below == Material.WATER) return null;
+        if (below == Material.WATER || below == Material.LAVA) return null;
         return new Location(world, x, y, z);
     }
 
@@ -101,9 +109,9 @@ public class TeleportTask extends BukkitRunnable {
 
     private boolean isStillAtStart() {
         Location loc = player.getLocation();
-        return loc.getWorld().equals(startLoc.getWorld())
-                && loc.getBlockX() == startLoc.getBlockX()
-                && loc.getBlockY() == startLoc.getBlockY()
-                && loc.getBlockZ() == startLoc.getBlockZ();
+        return loc.getWorld().equals(startLoc.getWorld()) &&
+                loc.getBlockX() == startLoc.getBlockX() &&
+                loc.getBlockY() == startLoc.getBlockY() &&
+                loc.getBlockZ() == startLoc.getBlockZ();
     }
 }

@@ -1,8 +1,8 @@
 package me.eject.listeners;
 
-import me.eject.UltraRTP;
 import me.eject.ConfigManager;
 import me.eject.CooldownManager;
+import me.eject.UltraRTP;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

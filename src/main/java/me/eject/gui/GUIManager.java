@@ -1,8 +1,8 @@
 package me.eject.gui;
 
-import me.eject.UltraRTP;
 import me.eject.ConfigManager;
 import me.eject.MaterialConfig;
+import me.eject.UltraRTP;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
